@@ -3,12 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import mintUiCss from 'mint-ui/lib/style.css';
-import mintUi from 'mint-ui';
+//引用elementUI组件库
+import elementUi from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import ajax from './utils/axios';
 
 Vue.config.productionTip = false
-mintUi.install(Vue);
+Vue.use(elementUi);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
