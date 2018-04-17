@@ -12,10 +12,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
     	'/api':{
-        target:'https://cxj.activity.chexiang.com',
         changeOrigin: true,
+        target: 'http://127.0.0.1:3000',
         pathRewrite: {
-          '^/api': ''
+          '^/api': '/api'
         }
       }
     },
