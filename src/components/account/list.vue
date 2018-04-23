@@ -8,36 +8,36 @@
     </el-col>
 
     <el-col :span="24" class="warp-main" v-loading="loading" element-loading-text="拼命加载中">
-        <!--工具条-->
-        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-          <el-form :inline="true" :model="filters">
-            <el-form-item>
-              <el-input v-model="filters.name" placeholder="姓名" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input v-model="filters.name" placeholder="手机号" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input v-model="filters.name" placeholder="ID号" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-input v-model="filters.name" placeholder="状态" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="handleSearch">查询</el-button>
-            </el-form-item>
-            
-            <el-form-item>
-              <el-button type="primary" @click="handleSearch">新增</el-button>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="handleSearch">可用</el-button>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" @click="handleSearch">失效</el-button>
-            </el-form-item>
-          </el-form>
-        </el-col>
+	    <!--工具条-->
+	    <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+	      <el-form :inline="true" :model="filters">
+	        <el-form-item>
+	          <el-input v-model="filters.name" placeholder="姓名" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+	        </el-form-item>
+	        <el-form-item>
+	          <el-input v-model="filters.name" placeholder="手机号" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+	        </el-form-item>
+	        <el-form-item>
+	          <el-input v-model="filters.name" placeholder="ID号" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+	        </el-form-item>
+	        <el-form-item>
+	          <el-input v-model="filters.name" placeholder="状态" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+	        </el-form-item>
+	        <el-form-item>
+	          <el-button type="primary" @click="handleSearch">查询</el-button>
+	        </el-form-item>
+	        
+	        <el-form-item>
+	          <el-button type="primary" @click="handleSearch">新增</el-button>
+	        </el-form-item>
+	        <el-form-item>
+	          <el-button type="primary" @click="handleSearch">可用</el-button>
+	        </el-form-item>
+	        <el-form-item>
+	          <el-button type="primary" @click="handleSearch">失效</el-button>
+	        </el-form-item>
+        </el-form>
+      </el-col>
 
       <!--列表-->
       <el-table :data="accounts" highlight-current-row v-loading="loading" style="width: 100%;" @selection-change="selsChange">
@@ -72,6 +72,39 @@
                        style="float:right;">
         </el-pagination>
       </el-col>
+      
+      <!--编辑界面-->
+      <el-dialog title="编辑" :visible.sync ="editFormVisible" :close-on-click-modal="false">
+        <el-form :model="editForm" label-width="100px" :rules="editFormRules" ref="editForm">
+          <el-form-item label="姓名" prop="name">
+            <el-input v-model="editForm.name" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="手机号" prop="author">
+            <el-input v-model="editForm.author" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="地区">
+            <el-select v-model="editForm.province" placeholder="省">
+				      <el-option label="省一" value="shanghai"></el-option>
+				      <el-option label="省二" value="beijing"></el-option>
+				    </el-select>
+				    <el-select v-model="editForm.city" placeholder="市">
+				      <el-option label="市一" value="shanghai"></el-option>
+				      <el-option label="市二" value="beijing"></el-option>
+				    </el-select>
+				    <el-select v-model="editForm.district" placeholder="区">
+				      <el-option label="区域一" value="shanghai"></el-option>
+				      <el-option label="区域二" value="beijing"></el-option>
+				    </el-select>
+          </el-form-item>
+          <el-form-item label="密码" prop="description">
+            <el-input type="password" v-model="editForm.description" ></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click.native="editFormVisible = false">取消</el-button>
+          <el-button type="primary" @click.native="editSubmit">提交</el-button>
+        </div>
+      </el-dialog>
     </el-col>
   </el-row>
 </template>
@@ -85,13 +118,55 @@
         filters: {
           name: ''
         },
-        loading: false,
         sels:[],
         accounts: [],
         total: 0,
         page: 1,
         limit: 10,
-        loading: false
+        loading: false,
+        
+        //编辑相关数据
+        editFormVisible: false,//编辑界面是否显示
+        editFormRules: {
+          name: [
+            {required: true, message: '请输入书名', trigger: 'blur'}
+          ],
+          author: [
+            {required: true, message: '请输入作者', trigger: 'blur'}
+          ],
+          description: [
+            {required: true, message: '请输入简介', trigger: 'blur'}
+          ]
+        },
+        editForm: {
+          id: 0,
+          name: '',
+          author: '',
+          publishAt: '',
+          description: ''
+        },
+        
+        //新增相关数据
+        addFormVisible: false,//新增界面是否显示
+        addLoading: false,
+        addFormRules: {
+          name: [
+            {required: true, message: '请输入书名', trigger: 'blur'}
+          ],
+          author: [
+            {required: true, message: '请输入作者', trigger: 'blur'}
+          ],
+          description: [
+            {required: true, message: '请输入简介', trigger: 'blur'}
+          ]
+        },
+        addForm: {
+          name: '',
+          author: '',
+          publishAt: '',
+          description: ''
+        }
+        
       }
     },
     created() {
@@ -107,19 +182,20 @@
     		this.handleSearch()
     	},
     	//查询
-      handleSearch(){
+      handleSearch() {
         this.total = 0;
         this.page = 1;
         this.search();
       },
       
     	//修改
-    	showEditDialog: () => {
+    	showEditDialog(index, row) {
         this.editFormVisible = true;
         this.editForm = Object.assign({}, row);
+        console.log("editForm", this.editForm);
       },
       //删除
-      delete: () => {
+      delete() {
         let that = this;
         this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'}).then(() => {
           that.loading = true;
@@ -141,12 +217,11 @@
         });
       },
       //选择记录发生改变
-      selsChange: (sels) => {
-      	console.log(sels);
+      selsChange(sels) {
         this.sels = sels;
       },
       //批量删除
-      batchDelete: () => {
+      batchDelete() {
         let ids = this.sels.map(item => item.id).toString();
         let that = this;
         this.$confirm('确认删除选中记录吗？', '提示', {
@@ -177,7 +252,7 @@
         this.search();
       },
       //获取用户列表
-      search: function () {
+      search() {
         let that = this;
         let params = {
           page: that.page,

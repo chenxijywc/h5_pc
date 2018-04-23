@@ -6,7 +6,6 @@ import router from './router'
 //引用elementUI组件库
 import elementUi from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import ajax from './utils/axios';
 
 Vue.config.productionTip = false
 Vue.use(elementUi);

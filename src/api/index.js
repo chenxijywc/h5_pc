@@ -55,3 +55,22 @@ export const DELETE = (url, params) => {
 export const PATCH = (url, params) => {
   return axios.patch(`${base}${url}`, params).then(res => res.data)
 }
+//扩展一个jsonp方法
+export const JSONP = (url) => {
+    if (!url) {
+        console.error('Axios.JSONP 至少需要一个url参数!')
+        return;
+    }
+    return new Promise((resolve, reject) => {
+        window.jsonCallBack = (result) => {
+            resolve(result)
+        }
+        var JSONP = document.createElement("script");
+        JSONP.type = "text/javascript";
+        JSONP.src = `${url}&callback=jsonCallBack`;
+        document.getElementsByTagName("head")[0].appendChild(JSONP);
+        setTimeout(() => {
+            document.getElementsByTagName("head")[0].removeChild(JSONP)
+        }, 500)
+    })
+}
