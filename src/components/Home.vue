@@ -6,7 +6,7 @@
         <a href="/"><img src="../assets/logo.png" style="padding-left:8px;"></a>
       </div>
       <div class="topbar-logos" v-show="!collapsed">
-        <a href="/"><img src="../assets/logotxt.png"></a>
+        <a href="/"><img style="visibility: hidden;" src="../assets/logotxt.png"></a>
       </div>
       <div class="topbar-title">
         <span style="font-size: 18px;color: #fff;">后台管理系统</span>
@@ -149,7 +149,7 @@
     .topbar-wrap {
       height: 50px;
       line-height: 50px;
-      background: #373d41;
+      background: #909399;
       padding: 0px;
 
       .topbar-btn {
@@ -203,7 +203,7 @@
 
     aside {
       min-width: 50px;
-      background: #333744;
+      background: #909399;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -219,7 +219,7 @@
         height: -webkit-calc(100% - 80px);
         height: calc(100% - 80px);
         border-radius: 0px;
-        background-color: #333744;
+        background-color: #909399;
         border-right: 0px;
       }
 

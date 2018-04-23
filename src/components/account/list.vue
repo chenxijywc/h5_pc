@@ -1,0 +1,214 @@
+<template>
+  <el-row class="warp">
+    <el-col :span="24" class="warp-breadcrum">
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
+        <el-breadcrumb-item>账号管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-col>
+
+    <el-col :span="24" class="warp-main" v-loading="loading" element-loading-text="拼命加载中">
+        <!--工具条-->
+        <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+          <el-form :inline="true" :model="filters">
+            <el-form-item>
+              <el-input v-model="filters.name" placeholder="姓名" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="filters.name" placeholder="手机号" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="filters.name" placeholder="ID号" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-input v-model="filters.name" placeholder="状态" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="handleSearch">查询</el-button>
+            </el-form-item>
+            
+            <el-form-item>
+              <el-button type="primary" @click="handleSearch">新增</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="handleSearch">可用</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="handleSearch">失效</el-button>
+            </el-form-item>
+          </el-form>
+        </el-col>
+
+      <!--列表-->
+      <el-table :data="accounts" highlight-current-row v-loading="loading" style="width: 100%;" @selection-change="selsChange">
+      	<el-table-column type="selection" width="55">
+      	</el-table-column>
+        <el-table-column type="index" width="60">
+        </el-table-column>
+        <el-table-column prop="name" label="姓名" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="name" label="手机" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="name" label="地区" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="name" label="ID号" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="name" label="密码" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="name" label="状态" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="name" label="操作" width="150" sortable>
+        	<template slot-scope="scope">
+            <el-button size="small" @click="showEditDialog(scope.$index,scope.row)">编辑</el-button>
+            <el-button type="danger" @click="delete(scope.$index,scope.row)" size="small">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      
+      <!--工具条-->
+      <el-col :span="24" class="toolbar">
+        <el-button type="danger" @click="batchDelete" :disabled="sels.length===0">批量删除</el-button>
+        <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="10" :total="total"
+                       style="float:right;">
+        </el-pagination>
+      </el-col>
+    </el-col>
+  </el-row>
+</template>
+
+<script>
+  import API from '../../api/api_account';
+
+  export default {
+    data() {
+      return {
+        filters: {
+          name: ''
+        },
+        loading: false,
+        sels:[],
+        accounts: [],
+        total: 0,
+        page: 1,
+        limit: 10,
+        loading: false
+      }
+    },
+    created() {
+    	//初始化
+    	this.init();
+    },
+    mounted() {
+      
+    },
+    methods: {
+    	//初始化
+    	init() {
+    		this.handleSearch()
+    	},
+    	//查询
+      handleSearch(){
+        this.total = 0;
+        this.page = 1;
+        this.search();
+      },
+      
+    	//修改
+    	showEditDialog: () => {
+        this.editFormVisible = true;
+        this.editForm = Object.assign({}, row);
+      },
+      //删除
+      delete: () => {
+        let that = this;
+        this.$confirm('确认删除该记录吗?', '提示', {type: 'warning'}).then(() => {
+          that.loading = true;
+          API.remove(row.id).then(function (result) {
+            that.loading = false;
+            if (result && parseInt(result.errcode) === 0) {
+              that.$message.success({showClose: true, message: '删除成功', duration: 1500});
+              that.search();
+            }
+          }, function (err) {
+            that.loading = false;
+            that.$message.error({showClose: true, message: err.toString(), duration: 2000});
+          }).catch(function (error) {
+            that.loading = false;
+            console.log(error);
+            that.$message.error({showClose: true, message: '请求出现异常', duration: 2000});
+          });
+        }).catch(() => {
+        });
+      },
+      //选择记录发生改变
+      selsChange: (sels) => {
+      	console.log(sels);
+        this.sels = sels;
+      },
+      //批量删除
+      batchDelete: () => {
+        let ids = this.sels.map(item => item.id).toString();
+        let that = this;
+        this.$confirm('确认删除选中记录吗？', '提示', {
+          type: 'warning'
+        }).then(() => {
+          that.loading = true;
+          API.removeBatch(ids).then(function (result) {
+            that.loading = false;
+            if (result && parseInt(result.errcode) === 0) {
+              that.$message.success({showClose: true, message: '删除成功', duration: 1500});
+              that.search();
+            }
+          }, function (err) {
+            that.loading = false;
+            that.$message.error({showClose: true, message: err.toString(), duration: 2000});
+          }).catch(function (error) {
+            that.loading = false;
+            console.log(error);
+            that.$message.error({showClose: true, message: '请求出现异常', duration: 2000});
+          });
+        }).catch(() => {
+
+        });
+      },
+      //分页查询
+      handleCurrentChange(val) {
+        this.page = val;
+        this.search();
+      },
+      //获取用户列表
+      search: function () {
+        let that = this;
+        let params = {
+          page: that.page,
+          limit: 10,
+          name: that.filters.name
+        };
+
+        that.loading = true;
+        API.findList(params).then(function (result) {
+          that.loading = false;
+          if (result && result.accounts) {
+            that.total = result.total;
+            that.accounts = result.accounts;
+          }
+        }, function (err) {
+          that.loading = false;
+          that.$message.error({showClose: true, message: err.toString(), duration: 2000});
+        }).catch(function (error) {
+          that.loading = false;
+          console.log(error);
+          that.$message.error({showClose: true, message: '请求出现异常', duration: 2000});
+        });
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+.warp {
+	.warp-breadcrum {
+		padding-bottom: 10px;
+	}
+}
+</style>

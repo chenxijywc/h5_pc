@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Dashboard from '@/components/Dashboard'
 
+import AccountList from '@/components/account/list'
+
 import BookList from '@/components/book/list'
 import BookCategoryList from '@/components/bookcategory/list'
 
@@ -33,6 +35,17 @@ let router = new Router({
       iconCls: 'iconfont icon-home', // 图标样式class
       children: [
         {path: '/dashboard', component: Dashboard, name: '首页', menuShow: true}
+      ]
+    },
+    {
+      path: '/',
+      component: Home,
+      name: '账号管理',
+      menuShow: true,
+      leaf: true, // 只有一个节点
+      iconCls: 'iconfont icon-users', // 图标样式class
+      children: [
+        {path: '/account/account', component: AccountList, name: '账号管理', menuShow: true}
       ]
     },
     {
