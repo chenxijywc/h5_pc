@@ -11,7 +11,7 @@
         <el-row>
           <el-col :span="8">
             <el-card :body-style="{ padding: '0px' }">
-              <img src="../assets/images/forest.png" class="image">
+              <img src="../assets/index/images/forest.png" class="image">
               <div style="padding: 14px;">
                 <span>一个例子而已</span>
                 <div class="bottom clearfix">
@@ -22,7 +22,7 @@
           </el-col>
           <el-col :span="8">
             <el-card :body-style="{ padding: '0px' }">
-              <img src="../assets/images/sunrise.png" class="image">
+              <img src="../assets/index/images/sunrise.png" class="image">
               <div style="padding: 14px;">
                 <span>我是一张卡片</span>
                 <div class="bottom clearfix">
@@ -33,7 +33,7 @@
           </el-col>
           <el-col :span="8">
             <el-card :body-style="{ padding: '0px' }">
-              <img src="../assets/images/sunshine.png" class="image">
+              <img src="../assets/index/images/sunshine.png" class="image">
               <div style="padding: 14px;">
                 <span>快乐生活每一天</span>
                 <div class="bottom clearfix">
