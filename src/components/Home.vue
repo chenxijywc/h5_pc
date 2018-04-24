@@ -6,7 +6,7 @@
         <a href="/"><img src="../assets/logo.png" style="padding-left:8px;"></a>
       </div>
       <div class="topbar-logos" v-show="!collapsed">
-        <a href="/"><img style="visibility: hidden;" src="../assets/logotxt.png"></a>
+        <a href="/"><img style="visibility: hidden;" src=""></a>
       </div>
       <div class="topbar-title">
         <span style="font-size: 18px;color: #fff;">后台管理系统</span>
@@ -149,7 +149,7 @@
     .topbar-wrap {
       height: 50px;
       line-height: 50px;
-      background: #909399;
+      background: #354045;
       padding: 0px;
 
       .topbar-btn {
@@ -199,56 +199,6 @@
       top: 50px;
       bottom: 0px;
       overflow: hidden;
-    }
-
-    aside {
-      min-width: 50px;
-      background: #909399;
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
-      &.showSidebar {
-        overflow-x: hidden;
-        overflow-y: auto;
-      }
-
-      .el-menu {
-        height: 100%; /*写给不支持calc()的浏览器*/
-        height: -moz-calc(100% - 80px);
-        height: -webkit-calc(100% - 80px);
-        height: calc(100% - 80px);
-        border-radius: 0px;
-        background-color: #909399;
-        border-right: 0px;
-      }
-
-      .el-submenu .el-menu-item {
-        min-width: 60px;
-      }
-      .el-menu {
-        width: 180px;
-      }
-      .el-menu--collapse {
-        width: 60px;
-      }
-
-      .el-menu .el-menu-item, .el-submenu .el-submenu__title {
-        height: 46px;
-        line-height: 46px;
-      }
-
-      .el-menu-item:hover, .el-submenu .el-menu-item:hover, .el-submenu__title:hover {
-        background-color: #7ed2df;
-      }
-    }
-
-    .menu-toggle {
-      background: #4A5064;
-      text-align: center;
-      color: white;
-      height: 26px;
-      line-height: 30px;
     }
 
     .content-container {

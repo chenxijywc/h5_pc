@@ -1,3 +1,78 @@
-html{
-    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC","Helvetica Neue",STHeiti,"Microsoft Yahei",Tahoma,Simsun,sans-serif;
+html {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
+}
+
+aside {
+    min-width: 50px;
+    background: #354045;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    &.showSidebar {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    .menu-toggle {
+        background: #4A5064;
+        text-align: center;
+        color: white;
+        height: 26px;
+        line-height: 30px;
+    }
+    .el-menu {
+        width: 180px;
+        height: 100%;
+        /*写给不支持calc()的浏览器*/
+        height: -moz-calc(100% - 80px);
+        height: -webkit-calc(100% - 80px);
+        height: calc(100% - 80px);
+        border-radius: 0px;
+        border-right: 0px;
+        background: transparent;
+        .el-menu-item {
+            min-width: 60px;
+            height: 46px;
+            line-height: 46px;
+            background: #354045;
+            border-bottom: 2px solid #586065;
+            color: #ffffff;
+            &:hover {
+                background: #586065;
+            }
+            &.is-active {
+                background: #586065;
+            }
+        }
+        .is-opened {}
+        .el-submenu {
+            min-width: 60px;
+            color: #ffffff;
+            .el-submenu__title {
+                height: 46px;
+                line-height: 46px;
+                background: #354045;
+                border-bottom: 2px solid #586065;
+                color: #ffffff;
+                &:hover {
+                    background: #586065;
+                }
+            }
+            .el-menu {
+                .el-menu-item {
+                    background: #354045;
+                    border-bottom: 2px solid #586065;
+                    color: #ffffff;
+                    &:hover {
+                        background: #586065;
+                    }
+                    &.is-active {
+                        background: #586065;
+                    }
+                }
+            }
+        }
+    }
+    .el-menu--collapse {
+        width: 64px;
+    }
 }
