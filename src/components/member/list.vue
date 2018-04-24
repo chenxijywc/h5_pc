@@ -72,33 +72,20 @@
       <!--编辑界面-->
       <el-dialog title="编辑" :visible.sync ="editFormVisible" :close-on-click-modal="false">
         <el-form :model="editForm" label-width="100px" :rules="editFormRules" ref="editForm">
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="editForm.name" auto-complete="off"></el-input>
+          <el-form-item label="会员等级" prop="name">
+          	<el-select v-model="editForm.province" placeholder="等级">
+				      <el-option label="一级" value="shanghai"></el-option>
+				      <el-option label="二级" value="beijing"></el-option>
+				    </el-select>
           </el-form-item>
-          <el-form-item label="手机号" prop="author">
+          <el-form-item label="推荐人" prop="author">
             <el-input v-model="editForm.author" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="地区">
-            <!--<el-select v-model="editForm.province" placeholder="省">
-				      <el-option label="省一" value="shanghai"></el-option>
-				      <el-option label="省二" value="beijing"></el-option>
-				    </el-select>
-				    <el-select v-model="editForm.city" placeholder="市">
-				      <el-option label="市一" value="shanghai"></el-option>
-				      <el-option label="市二" value="beijing"></el-option>
-				    </el-select>
-				    <el-select v-model="editForm.district" placeholder="区">
-				      <el-option label="区域一" value="shanghai"></el-option>
-				      <el-option label="区域二" value="beijing"></el-option>
-				    </el-select>-->
-				    <el-cascader
-					    :options="regions"
-					    v-model="selectedRregion2"
-					    @change="handleChange">
-					  </el-cascader>
+          <el-form-item label="推荐网点">
+            <el-input v-model="editForm.name" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="description">
-            <el-input type="password" v-model="editForm.description" ></el-input>
+          <el-form-item label="手机" prop="description">
+            <el-input v-model="editForm.name" auto-complete="off"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
