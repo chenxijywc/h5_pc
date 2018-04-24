@@ -3,7 +3,7 @@
     <el-col :span="24" class="warp-breadcrum">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
-        <el-breadcrumb-item>培训管理</el-breadcrumb-item>
+        <el-breadcrumb-item>报名信息</el-breadcrumb-item>
       </el-breadcrumb>
     </el-col>
 
