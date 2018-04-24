@@ -7,10 +7,13 @@ import AccountList from '@/components/account/list'
 
 import MemberList from '@/components/member/list'
 
-import BookList from '@/components/book/list'
-import BookCategoryList from '@/components/bookcategory/list'
+import GradeList from '@/components/grade/list'
 
-import UserList from '@/components/user/list'
+import ContentList from '@/components/content/list'
+
+import TrainList from '@/components/train/list'
+import EnrollList from '@/components/train/enrollList'
+
 import UserChangePwd from '@/components/user/changepwd'
 import UserProfile from '@/components/user/profile'
 
@@ -64,23 +67,36 @@ let router = new Router({
     {
       path: '/',
       component: Home,
-      name: '用户管理',
+      name: '等级管理',
       menuShow: true,
       leaf: true, // 只有一个节点
       iconCls: 'iconfont icon-users', // 图标样式class
       children: [
-        {path: '/user/list', component: UserList, name: '用户列表', menuShow: true}
+        {path: '/grade/grade', component: GradeList, name: '等级管理', menuShow: true}
       ]
     },
     {
       path: '/',
       component: Home,
-      name: '图书管理',
+      name: '内容管理',
       menuShow: true,
-      iconCls: 'iconfont icon-books',
+      leaf: true, // 只有一个节点
+      iconCls: 'iconfont icon-users', // 图标样式class
       children: [
-        {path: '/book/list', component: BookList, name: '图书列表', menuShow: true},
-        {path: '/book/category', component: BookCategoryList, name: '图书分类', menuShow: true}
+        {path: '/content/content', component: ContentList, name: '内容管理', menuShow: true}
+      ]
+    },
+    
+    {
+      path: '/',
+      component: Home,
+      name: '培训管理',
+      menuShow: true,
+      leaf: false, // 只有一个节点
+      iconCls: 'iconfont icon-users', // 图标样式class
+      children: [
+        {path: '/train/train', component: TrainList, name: '培训管理', menuShow: true},
+        {path: '/train/enrollList', component: EnrollList, name: '报名信息', menuShow: true}
       ]
     },
     {
