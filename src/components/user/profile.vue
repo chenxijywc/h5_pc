@@ -104,3 +104,10 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+.warp {
+	.warp-breadcrum {
+		padding-bottom: 10px;
+	}
+}
+</style>
