@@ -30,7 +30,7 @@ userController.find = function (req, res) {
   res.json({
     total: total,
     limit: limit,
-    accounts: resultUsers
+    obj: resultUsers
   })
 };
 

@@ -3,7 +3,7 @@
     <el-col :span="24" class="warp-breadcrum">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
-        <el-breadcrumb-item>账号管理</el-breadcrumb-item>
+        <el-breadcrumb-item>会员管理</el-breadcrumb-item>
       </el-breadcrumb>
     </el-col>
 
@@ -15,47 +15,43 @@
 	          <el-input v-model="filters.name" placeholder="姓名" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
 	        </el-form-item>
 	        <el-form-item>
-	          <el-input v-model="filters.name" placeholder="手机号" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+	          <el-input v-model="filters.name" placeholder="ID码" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
 	        </el-form-item>
 	        <el-form-item>
-	          <el-input v-model="filters.name" placeholder="ID号" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+	          <el-input v-model="filters.name" placeholder="手机" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
 	        </el-form-item>
 	        <el-form-item>
-	          <el-input v-model="filters.name" placeholder="状态" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+	          <el-input v-model="filters.name" placeholder="会员等级" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+	        </el-form-item>
+	        <el-form-item>
+	          <el-input v-model="filters.name" placeholder="推荐人" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
+	        </el-form-item>
+	        <el-form-item>
+	          <el-input v-model="filters.name" placeholder="网点" style="min-width: 240px;" @keyup.enter.native="handleSearch"></el-input>
 	        </el-form-item>
 	        <el-form-item>
 	          <el-button type="primary" @click="handleSearch">查询</el-button>
-	        </el-form-item>
-	        
-	        <el-form-item>
-	          <el-button type="primary" @click="showAddDialog">新增</el-button>
-	        </el-form-item>
-	        <el-form-item>
-	          <el-button type="primary" @click="handleSearch">可用</el-button>
-	        </el-form-item>
-	        <el-form-item>
-	          <el-button type="primary" @click="handleSearch">失效</el-button>
 	        </el-form-item>
         </el-form>
       </el-col>
 
       <!--列表-->
-      <el-table :data="accounts" highlight-current-row v-loading="loading" style="width: 100%;" @selection-change="selsChange">
+      <el-table :data="members" highlight-current-row v-loading="loading" style="width: 100%;" @selection-change="selsChange">
       	<el-table-column type="selection" width="55">
       	</el-table-column>
         <el-table-column type="index" width="60">
         </el-table-column>
         <el-table-column prop="name" label="姓名" width="120" sortable>
         </el-table-column>
+        <el-table-column prop="name" label="会员等级" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="name" label="ID码" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="name" label="推荐人" width="120" sortable>
+        </el-table-column>
+        <el-table-column prop="name" label="推荐网点" width="120" sortable>
+        </el-table-column>
         <el-table-column prop="name" label="手机" width="120" sortable>
-        </el-table-column>
-        <el-table-column prop="name" label="地区" width="120" sortable>
-        </el-table-column>
-        <el-table-column prop="name" label="ID号" width="120" sortable>
-        </el-table-column>
-        <el-table-column prop="name" label="密码" width="120" sortable>
-        </el-table-column>
-        <el-table-column prop="name" label="状态" width="120" sortable>
         </el-table-column>
         <el-table-column prop="name" label="操作" width="150" sortable>
         	<template slot-scope="scope">
@@ -110,37 +106,12 @@
           <el-button type="primary" @click.native="editSubmit">提交</el-button>
         </div>
       </el-dialog>
-      <!--添加界面-->
-      <el-dialog title="添加" :visible.sync ="addFormVisible" :close-on-click-modal="false">
-        <el-form :model="addForm" label-width="100px" :rules="addFormRules" ref="addForm">
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="addForm.name" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="手机号" prop="author">
-            <el-input v-model="addForm.author" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="地区">
-				    <el-cascader
-					    :options="regions"
-					    v-model="selectedRregion2"
-					    @change="handleChange">
-					  </el-cascader>
-          </el-form-item>
-          <el-form-item label="密码" prop="description">
-            <el-input type="password" v-model="addForm.description" ></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click.native="addFormVisible = false">取消</el-button>
-          <el-button type="primary" @click.native="addSubmit">提交</el-button>
-        </div>
-      </el-dialog>
     </el-col>
   </el-row>
 </template>
 
 <script>
-  import API from '../../api/api_account';
+  import API from '../../api/api_member';
   import regions from '../../utils/regions';
   export default {
     data() {
@@ -149,7 +120,7 @@
           name: ''
         },
         sels:[],
-        accounts: [],
+        members: [],
         total: 0,
         page: 1,
         limit: 10,
@@ -177,26 +148,6 @@
           selectedRregion: ["130000", "130300", "130304"]
         },
         selectedRregion2: ["130000", "130300", "130304"],
-        //新增相关数据
-        addFormVisible: false,//新增界面是否显示
-        addFormRules: {
-          name: [
-            {required: true, message: '请输入书名', trigger: 'blur'}
-          ],
-          author: [
-            {required: true, message: '请输入作者', trigger: 'blur'}
-          ],
-          description: [
-            {required: true, message: '请输入简介', trigger: 'blur'}
-          ]
-        },
-        addForm: {
-          name: '',
-          author: '',
-          publishAt: '',
-          description: '',
-          selectedRregion: []
-        },
         regions: regions
       }
     },
@@ -218,14 +169,6 @@
         this.page = 1;
         this.search();
       },
-      //添加
-      showAddDialog() {
-      	this.addFormVisible = true;
-      },
-      //添加提交
-      addSubmit() {
-      	
-      },
     	//修改
     	showEditDialog(index, row) {
         this.editFormVisible = true;
@@ -234,7 +177,7 @@
       },
       //修改提交
       updateSubmit() {
-      	API.add(row.id).then(function (result) {
+      	API.update(row.id).then(function (result) {
 	        that.loading = false;
 	        if (result && parseInt(result.errcode) === 0) {
 	          that.$message.success({showClose: true, message: '删除成功', duration: 1500});
@@ -320,7 +263,7 @@
           that.loading = false;
           if (result && result.obj) {
             that.total = result.total;
-            that.accounts = result.obj;
+            that.members = result.obj;
           }
         }, function (err) {
           that.loading = false;
